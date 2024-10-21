@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEROPUERTO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Archivo CSS -->
+</head>
+<body>
+<!-- Barra de navegación -->
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" href="#"> 
+            <img src="https://png.pngtree.com/png-clipart/20230804/original/pngtree-vector-airport-icon-white-symbol-airport-vector-picture-image_9512758.png" alt="Logo del Aeropuerto" width="30" height="30" class="d-inline-block align-top">
+            Aeropuerto Internacional
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#consulta-vuelos">Consulta de Vuelos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#reserva-estacionamiento">Reservar Estacionamiento</a>
+                </li>
+ 
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+    <!-- Sección de características con enlaces de anclaje -->
+     <!-- Contenedor de las imágenes -->
+     <section style="position: relative; text-align: center; color: white;">
+        <div>
+            <img src="https://static.eldoradoaero.com/web/img/conexiones/conexiones-header.webp" class="d-block w-100" alt="Aeropuerto Internacional">
+            
+            <!-- Contenedor del título y eslogan -->
+            <div class="centered-text">
+                <h1>Aeropuerto Internacional</h1>
+                <p>"Conectando el mundo, un vuelo a la vez"</p>
+            </div>
+        </div>
+    </section>
+    <style>
+        /* Estilo del contenedor para centrar el texto y agregar fondo gris */
+        .centered-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo gris semi-transparente */
+            padding: 20px;
+            border-radius: 10px; /* Esquinas redondeadas */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+    
+        /* Estilos para el título y el eslogan */
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0;
+        }
+    
+        p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+    </style>
+    
+    
+
+
+    <!-- Secciones de contenido más abajo -->
+    <section id="consulta-vuelos" class="content-section">
+        <h2>Consulta de Vuelos</h2>
+        <form id="flight-search-form" class="flight-form">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <label for="origen">Aeropuerto de Origen</label>
+                    
+                    <select class="form-control" id="originAirport">
+                        <option value="">Seleccionar</option>
+                        <option value="JFK">JFK (New York)</option>
+                        <option value="LAX">LAX (Los Angeles)</option>
+                        <option value="ORD">ORD (Chicago)</option>
+                        <option value="MIA">MIA (Miami)</option>
+                    </select>
+
+                
+                </div>
+                <div class="col-md-6 col-12">
+                    <label for="destino">Aeropuerto de Destino</label>
+                    <select class="form-control" id="destinationAirport">
+                        <option value="">Seleccionar</option>
+                        <option value="JFK">JFK (New York)</option>
+                        <option value="LAX">LAX (Los Angeles)</option>
+                        <option value="ORD">ORD (Chicago)</option>
+                        <option value="MIA">MIA (Miami)</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6 col-12">
+                    <label for="fecha">Fecha del Vuelo</label>
+                    <select class="form-control" id="flightDate">
+                        <option value="">Seleccionar</option>
+                        <option value="2024-10-20">2024-10-20</option>
+                        <option value="2024-10-21">2024-10-21</option>
+                        <option value="2024-10-22">2024-10-22</option>
+                    </select>
+
+                </div>
+                <div class="col-md-6 col-12">
+                    <label for="estado">Estado del Vuelo</label>
+                    <select id="flightStatus" class="form-control">
+                        <option value="">Todos</option>
+                        <option value="on-time">A Tiempo</option>
+                        <option value="delayed">Retrasado</option>
+                        <option value="cancelled">Cancelado</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">Buscar Vuelos</button>
+                </div>
+            </div>
+        </form>
+    
+        <!-- Sección para mostrar los resultados -->
+        <div id="flight-results" class="mt-5 table-responsive">
+           
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Número de Vuelo</th>
+                            <th>Aeropuerto de Origen</th>
+                            <th>Aeropuerto de Destino</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Resultados dinámicos aquí -->
+                    </tbody>
+                </table>
+            </div>
+    </section>
+
+    
+    <section id="reserva-estacionamiento" class="content-section">
+        <h2>Reserva de Estacionamiento</h2>
+        <form id="parking-reservation-form" class="parking-form">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <label for="fecha-entrada">Dia de reservacion</label>
+                    <input type="date" id="reservationDate" class="form-control" required>
+                </div>
+                <div class="col-md-6 col-12">
+                    <label for="hora-entrada">Hora de Entrada</label>
+                    <input type="time" id="entryTime" class="form-control" required>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6 col-12">
+                    <label for="hora-salida">Hora de Salida</label>
+                    <input type="time" id="exitTime" class="form-control" required>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label for="placa-vehiculo">Placa del Vehículo</label>
+                    <input type="text" id="placa-vehiculo" class="form-control" placeholder="Ej: ABC-1234" required>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">Reservar Estacionamiento</button>
+                </div>
+            </div>
+        </form>
+    
+        <!-- Sección para mostrar el estado de la reserva -->
+        <div id="parking-results" class="mt-5">
+           
+            
+
+
+            <div id="availability-result" class="alert alert-info text-center" role="alert" style="display: none;">
+                <!-- Mensaje dinámico de disponibilidad -->
+            </div>
+    
+            <!-- Spinner de Carga -->
+            <div id="loading-spinner" class="text-center" style="display: none;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+            <!-- Resultado de Disponibilidad -->
+    <div id="availability-result" class="alert alert-info text-center" role="alert" style="display: none;">
+        <!-- Mensaje dinámico de disponibilidad -->
+    </div>
+    
+    <!-- Botón de Reservar -->
+    <div id="reserve-button-container" class="text-center" style="display: none;">
+        <button id="reserve-button" class="btn btn-success">Reservar Espacio</button>
+    </div>
+    
+    <!-- Spinner de Carga -->
+    <div id="loading-spinner" class="text-center" style="display: none;">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>   
+        </div>
+    </section>
+    <section class="features-section">
+        <div class="card">
+            <a href="loginadmin.html">
+                <div class="card-icons">
+                    <!-- Ícono de Iniciar Sesión (usuario) -->
+                    <i class="fas fa-sign-in-alt"></i> <!-- Ícono de iniciar sesión -->
+                </div>
+                <h5>Personal Administrativo</h5>
+            </a>
+        </div>  
+    </section>
+    
+    <!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS y jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts.js"></script>
+   
+    <script src="vuelo.js"></script>
+    <section>
+        <h1>Clima Actual</h1>
+        <div id="weather"></div> <!-- Contenedor para mostrar el clima -->
+    </section>
+    
+</body>
+<!-- Footer -->
+<footer class="footer  text-white text-center">
+    <div class="container p-4">
+        <p>&copy; 2024 Aeropuerto Internacional. Todos los derechos reservados.</p>
+        <ul class="list-inline">
+            <li class="list-inline-item">
+                <a href="#" class="text-white">Política de privacidad</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="#" class="text-white">Términos de servicio</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="#" class="text-white">Contacto</a>
+            </li>
+        </ul>
+    </div>
+</footer>
+</html>

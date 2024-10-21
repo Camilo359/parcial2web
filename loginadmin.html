@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión Administrativa</title>
+    <link rel="stylesheet" href="estilos.css"> <!-- Asegúrate de enlazar tu archivo CSS si lo necesitas -->
+    <style>
+        /* Estilo general del body */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* Color de fondo suave */
+            color: #333; /* Color de texto */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ocupa toda la altura de la ventana */
+            margin: 0;
+        }
+
+        /* Sección del formulario */
+        .content-section {
+            background-color: #fff; /* Fondo blanco para el formulario */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+            padding: 40px; /* Espaciado interno */
+            width: 400px; /* Ancho del formulario */
+        }
+
+        /* Título del formulario */
+        h2 {
+            text-align: center;
+            color: #007BFF; /* Color del título (puedes cambiarlo) */
+            margin-bottom: 20px; /* Margen inferior */
+        }
+
+        /* Estilos para los labels */
+        label {
+            display: block;
+            margin-bottom: 5px; /* Margen inferior */
+            font-weight: bold; /* Texto en negrita */
+        }
+
+        /* Estilos para los inputs */
+        .form-control {
+            width: 100%; /* Ancho completo */
+            padding: 10px; /* Espaciado interno */
+            margin-bottom: 15px; /* Margen inferior entre campos */
+            border: 1px solid #ccc; /* Borde gris claro */
+            border-radius: 4px; /* Bordes redondeados */
+            box-sizing: border-box; /* Incluye padding y border en el ancho total */
+        }
+
+        /* Estilos para el botón */
+        .btn {
+            background-color: #007BFF; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            border: none; /* Sin borde */
+            border-radius: 4px; /* Bordes redondeados */
+            padding: 10px 15px; /* Espaciado interno */
+            cursor: pointer; /* Cursor de mano */
+            transition: background-color 0.3s; /* Transición suave */
+        }
+
+        .btn:hover {
+            background-color: #0056b3; /* Color al pasar el cursor */
+        }
+
+        /* Mensaje de error */
+        #login-message {
+            margin-top: 10px; /* Margen superior */
+            font-weight: bold; /* Texto en negrita */
+            color: red; /* Color del mensaje de error */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Formulario de Inicio de Sesión -->
+<section id="login-section" class="content-section">
+    <h2>Inicio de Sesión Administrativa</h2>
+    <form id="login-form" class="login-form">
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <label for="username">Usuario: admin</label>
+                <input type="text" id="username" class="form-control" placeholder="Ingrese su usuario" required>
+            </div>
+            <div class="col-md-6 col-12">
+                <label for="password">Contraseña: admin</label>
+                <input type="password" id="password" class="form-control" placeholder="Ingrese su contraseña" required>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="login-message" class="text-center mt-3" style="color: red;"></div> <!-- Mensaje de error -->
+</section>
+
+<script>
+document.getElementById("login-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+    // Obtén los valores de usuario y contraseña
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+
+    // Simulación de validación de credenciales
+    if (username === "admin" && password === "admin") {
+        // Si las credenciales son correctas, abre una nueva pestaña con empleados.html
+        window.location.href = 'empleados.html';
+    } else {
+        // Si las credenciales son incorrectas, muestra un mensaje de error
+        document.getElementById("login-message").textContent = "Usuario o contraseña incorrectos.";
+    }
+});
+</script>
+
+</body>
+</html>

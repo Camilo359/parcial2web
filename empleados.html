@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empleados</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            background-color: #f8f9fa; /* Color de fondo claro */
+            color: #343a40; /* Color de texto oscuro */
+        }
+    
+        h1, h2 {
+            color: #ed7f10; /* Color principal de la empresa */
+        }
+    
+        .navbar {
+            background-color: #007bff; /* Color de la barra de navegación */
+        }
+    
+        .navbar a {
+            color: #ffffff; /* Color del texto de la barra de navegación */
+        }
+    
+        .btn-primary {
+            background-color: #ed7f10; /* Color del botón primario */
+            border-color: #a77f28; /* Color del borde del botón primario */
+        }
+    
+        .btn-primary:hover {
+            background-color: #d75a0e; /* Color al pasar el mouse sobre el botón */
+            border-color: #a77f28; /* Color del borde al pasar el mouse */
+        }
+    
+        .modal-content {
+            border-radius: 0.5rem; /* Bordes redondeados en el modal */
+        }
+    
+        .modal-header {
+            background-color: #007bff; /* Color de fondo del encabezado del modal */
+            color: #ffffff; /* Color del texto del encabezado del modal */
+        }
+    
+        .table {
+            border-radius: 0.5rem; /* Bordes redondeados en la tabla */
+            overflow: hidden; /* Evita el desbordamiento de bordes redondeados */
+        }
+    
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2; /* Color de las filas impares */
+        }
+    
+        .card {
+            border-radius: 0.5rem; /* Bordes redondeados en las tarjetas */
+        }
+    
+        .card-body {
+            padding: 1rem; /* Espaciado interno en el cuerpo de las tarjetas */
+        }
+    
+        /* Estilos para el formulario de incidencias */
+        .incidence-form {
+            background-color: #ffffff; /* Fondo blanco para el formulario */
+            padding: 1rem; /* Espaciado interno del formulario */
+            border-radius: 0.5rem; /* Bordes redondeados para el formulario */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave para el formulario */
+        }
+    
+        .content-section {
+            margin-top: 2rem; /* Espaciado superior para la sección de contenido */
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Aeropuerto Internacional</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html" id="logout-btn">Cerrar Sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="my-4">Gestión de Empleados</h1>
+
+        <!-- Botón para abrir el modal -->
+        <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#agregarEmpleadoModal">
+            Agregar Empleado
+        </button>
+
+        <!-- Modal para agregar empleados -->
+        <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" aria-labelledby="agregarEmpleadoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarEmpleadoModalLabel">Agregar Empleado</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="empleadoForm">
+                            <div class="form-group">
+                                <label for="nombre">Nombre del Empleado</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre completo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="puesto">Puesto</label>
+                                <select class="form-control" id="puesto" required>
+                                    <option value="">Seleccionar puesto</option>
+                                    <option value="Piloto">Piloto</option>
+                                    <option value="Personal de tierra">Personal de tierra</option>
+                                    <option value="Seguridad">Seguridad</option>
+                                    <option value="Controlador aéreo">Controlador aéreo</option>
+                                    <option value="Ingeniero de mantenimiento">Ingeniero de mantenimiento</option>
+                                    <option value="Atención al cliente">Atención al cliente</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="turno">Turno</label>
+                                <select class="form-control" id="turno" required>
+                                    <option value="">Seleccionar turno</option>
+                                    <option value="mañana">Mañana</option>
+                                    <option value="tarde">Tarde</option>
+                                    <option value="noche">Noche</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Agregar Empleado</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de empleados -->
+        <h2 class="my-4">Lista de Empleados</h2>
+        <!-- Barra de búsqueda y filtros -->
+        <div class="my-4">
+            <input type="text" id="busquedaNombre" class="form-control" placeholder="Buscar por nombre" oninput="filtrarEmpleados()">
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <select id="filtroPuesto" class="form-control" onchange="filtrarEmpleados()">
+                    <option value="">Filtrar por puesto</option>
+                    <option value="Piloto">Piloto</option>
+                    <option value="Personal de tierra">Personal de tierra</option>
+                    <option value="Seguridad">Seguridad</option>
+                    <option value="Controlador aéreo">Controlador aéreo</option>
+                    <option value="Ingeniero de mantenimiento">Ingeniero de mantenimiento</option>
+                    <option value="Atención al cliente">Atención al cliente</option>
+                </select>
+            </div>
+            <div class="col">
+                <select id="filtroTurno" class="form-control" onchange="filtrarEmpleados()">
+                    <option value="">Filtrar por turno</option>
+                    <option value="mañana">Mañana</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noche">Noche</option>
+                </select>
+            </div>
+        </div>
+        <table class="table table-striped" id="empleadosTabla">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Puesto</th>
+                    <th>Turno</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se añadirán los empleados -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para editar empleados -->
+    <div class="modal fade" id="editarEmpleadoModal" tabindex="-1" aria-labelledby="editarEmpleadoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarEmpleadoModalLabel">Editar Empleado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarEmpleadoForm">
+                        <div class="form-group">
+                            <label for="editarNombre">Nombre del Empleado</label>
+                            <input type="text" class="form-control" id="editarNombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editarPuesto">Puesto</label>
+                            <select class="form-control" id="editarPuesto" required>
+                                <option value="Piloto">Piloto</option>
+                                <option value="Personal de tierra">Personal de tierra</option>
+                                <option value="Seguridad">Seguridad</option>
+                                <option value="Controlador aéreo">Controlador aéreo</option>
+                                <option value="Ingeniero de mantenimiento">Ingeniero de mantenimiento</option>
+                                <option value="Atención al cliente">Atención al cliente</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editarTurno">Turno</label>
+                            <select class="form-control" id="editarTurno" required>
+                                <option value="mañana">Mañana</option>
+                                <option value="tarde">Tarde</option>
+                                <option value="noche">Noche</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="incidencias" class="content-section">
+        <h2>Reporte de Incidencias</h2>
+        <form id="incidence-form" class="incidence-form">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <label for="tipo-incidencia">Tipo de Incidencia</label>
+                    <select id="tipo-incidencia" class="form-control" required>
+                        <option value="mantenimiento">Mantenimiento</option>
+                        <option value="seguridad">Seguridad</option>
+                        <option value="retrasos">Retrasos</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-12">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" class="form-control" placeholder="Describa la incidencia" required></textarea>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6 col-12">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" id="fecha" class="form-control" required>
+                </div>
+                <div class="col-md-6 col-12">
+                    <label for="estado">Estado</label>
+                    <select id="estado" class="form-control" required>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Resuelto">Resuelto</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary" style="background-color: #ed7f10; border-color: #a77f28;">
+                        Registrar Incidencia
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Contenedor para las tarjetas de incidencias -->
+        <div id="incidence-results" class="mt-5">
+            <div id="incidenceCards" class="d-flex flex-wrap">
+                <!-- Aquí se insertarán las incidencias dinámicamente como tarjetas horizontales -->
+            </div>
+        </div>
+    </section>
+    <script>
+        // Array para almacenar las incidencias
+        let incidencias = [];
+    
+        // Captura el formulario y el contenedor donde se mostrarán las tarjetas
+        const form = document.getElementById("incidence-form");
+        const incidenceCards = document.getElementById("incidenceCards");
+    
+        // Escucha el evento de envío del formulario
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita el comportamiento por defecto del formulario
+    
+            // Obtiene los valores de los campos del formulario
+            const tipoIncidencia = document.getElementById("tipo-incidencia").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const fecha = document.getElementById("fecha").value;
+            const estado = document.getElementById("estado").value;
+    
+            // Crea un objeto con la incidencia
+            const nuevaIncidencia = {
+                tipo: tipoIncidencia,
+                descripcion: descripcion,
+                fecha: fecha,
+                estado: estado
+            };
+    
+            // Agrega la nueva incidencia al array
+            incidencias.push(nuevaIncidencia);
+    
+            // Actualiza las tarjetas de incidencias
+            actualizarTarjetas();
+    
+            // Limpia el formulario
+            form.reset();
+        });
+    
+        // Función para actualizar las tarjetas de incidencias
+        function actualizarTarjetas() {
+            // Limpia el contenido actual del contenedor de tarjetas
+            incidenceCards.innerHTML = "";
+    
+            // Recorre el array de incidencias y crea una tarjeta por cada incidencia
+            incidencias.forEach((incidencia, index) => {
+                // Crear la estructura de una tarjeta
+                const card = document.createElement("div");
+                card.classList.add("card", "mb-3");
+                card.style.width = "100%";
+    
+                card.innerHTML = `
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Tipo: ${incidencia.tipo}</h5>
+                                <p class="card-text">Descripción: ${incidencia.descripcion}</p>
+                                <p class="card-text">Fecha: ${incidencia.fecha}</p>
+                                <p class="card-text"><small class="text-muted">Estado: ${incidencia.estado}</small></p>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarIncidencia(${index})">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+    
+                // Añadir la tarjeta al contenedor
+                incidenceCards.appendChild(card);
+            });
+        }
+    
+        // Función para eliminar una incidencia
+        function eliminarIncidencia(index) {
+            // Elimina la incidencia del array según su índice
+            incidencias.splice(index, 1);
+    
+            // Actualiza las tarjetas para reflejar la eliminación
+            actualizarTarjetas();
+        }
+    </script>
+    
+    <!-- Vinculación con el archivo JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="empleadosfun.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
